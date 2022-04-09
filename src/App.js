@@ -63,6 +63,23 @@ const App = () => {
     }
   }
 
+  const moveSquare = () => {
+    for (let i = 0; i < 64 - width; i++) {
+      const firstRow = [0, 1, 2, 3, 4, 5, 6, 7];
+      const isFirstRow = firstRow.includes(i);
+
+      if (isFirstRow && currentColors[i] === '') {
+        let randomNumber = Math.floor(Math.random() * colors.length);
+        currentColors[i] = colors[randomNumber]
+      }
+
+      if ((currentColors[i + width]) === '') {
+        currentColors[i + width] = currentColors[i];
+        currentColors[i] = '';
+      }
+    }
+  }
+
   const createBoard = () => {
     const randomColorArrangement = [];
     for (let i = 0; i < width * width; i++) {
@@ -82,16 +99,17 @@ const App = () => {
       checkRowOfFour();
       checkColumnOfThree();
       checkRowOfThree();
+      moveSquare();
       setCurrentColors([...currentColors]);
     }, 100)
     return () => clearInterval(timer);
-  }, [checkColumnOfThree, currentColors, checkColumnOfFour, checkRowOfThree, checkRowOfFour])
+  }, [checkColumnOfThree, currentColors, checkColumnOfFour, checkRowOfThree, checkRowOfFour, moveSquare])
 
   return (
     <div className="app">
       <div className="app-game">
         {currentColors.map((item, index) => (
-          <img key={index} style={{ backgroundColor: item }} alt={index + 1} />
+          <img key={index} style={{ backgroundColor: item }} alt={item} />
         ))}
       </div>
     </div>
