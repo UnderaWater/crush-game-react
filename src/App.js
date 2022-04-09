@@ -12,14 +12,17 @@ const colors = [
 
 const App = () => {
   const [currentColors, setCurrentColors] = useState([]);
+  const [squareDragged, setSquareDragged] = useState(null);
+  const [squareReplaced, setSquareReplaced] = useState(null)
 
   const checkColumnOfFour = () => {
-    for (let i = 0; i < 39; i++) {
+    for (let i = 0; i <= 39; i++) {
       const columnOfFour = [i, i + width, i + width * 2, i + width * 3];
       const decidedColor = currentColors[i];
 
       if (columnOfFour.every(item => currentColors[item] === decidedColor)) {
         columnOfFour.forEach(item => currentColors[item] = '');
+        return true;
       }
     }
   }
@@ -34,17 +37,19 @@ const App = () => {
 
       if (rowOfFour.every(item => currentColors[item] === decidedColor)) {
         rowOfFour.forEach(item => currentColors[item] = '');
+        return true;
       }
     }
   }
 
   const checkColumnOfThree = () => {
-    for (let i = 0; i < 47; i++) {
+    for (let i = 0; i <= 47; i++) {
       const columnOfThree = [i, i + width, i + width * 2];
       const decidedColor = currentColors[i];
 
       if (columnOfThree.every(item => currentColors[item] === decidedColor)) {
         columnOfThree.forEach(item => currentColors[item] = '');
+        return true;
       }
     }
   }
@@ -59,12 +64,13 @@ const App = () => {
 
       if (rowOfThree.every(item => currentColors[item] === decidedColor)) {
         rowOfThree.forEach(item => currentColors[item] = '');
+        return true;
       }
     }
   }
 
   const moveSquare = () => {
-    for (let i = 0; i < 64 - width; i++) {
+    for (let i = 0; i <= 55; i++) {
       const firstRow = [0, 1, 2, 3, 4, 5, 6, 7];
       const isFirstRow = firstRow.includes(i);
 
@@ -89,6 +95,43 @@ const App = () => {
     setCurrentColors(randomColorArrangement);
   }
 
+  const dragStart = (e) => {
+    setSquareDragged(e.target)
+  }
+
+  const dragDrop = (e) => {
+    setSquareReplaced(e.target)
+  }
+
+  const dragEnd = (e) => {
+    const squareDraggeddId = parseInt(squareDragged.getAttribute('data-id'));
+    const squareReplacedId = parseInt(squareReplaced.getAttribute('data-id'));
+
+    const validMoves = [
+      squareDraggeddId - 1,
+      squareDraggeddId - width,
+      squareDraggeddId + 1,
+      squareDraggeddId + width
+    ];
+
+    const validMove = validMoves.includes(squareReplacedId);
+
+    const isAColumnOfFour = checkColumnOfFour();
+    const isARowOfFour = checkRowOfFour();
+    const isAColumnOfThree = checkColumnOfThree();
+    const isARowOfThree = checkRowOfThree();
+
+    if (squareReplacedId && validMove
+      && (isARowOfThree || isARowOfFour || isAColumnOfFour || isAColumnOfThree)) {
+        setSquareDragged(null);
+        setSquareReplaced(null);
+      } else {
+        currentColors[squareReplacedId] = squareDragged.style.backgroundColor;
+        currentColors[squareDraggeddId] = squareReplaced.style.backgroundColor;
+        setCurrentColors([...currentColors])
+      }
+  }
+
   useEffect(() => {
     createBoard();
   }, [])
@@ -109,7 +152,19 @@ const App = () => {
     <div className="app">
       <div className="app-game">
         {currentColors.map((item, index) => (
-          <img key={index} style={{ backgroundColor: item }} alt={item} />
+          <img
+            key={index}
+            style={{ backgroundColor: item }}
+            alt={item}
+            data-id={index}
+            draggable={true}
+            onDragStart={dragStart}
+            onDragOver={(e) => e.preventDefault()}
+            onDragEnter={(e) => e.preventDefault()}
+            onDragLeave={(e) => e.preventDefault()}
+            onDrop={dragDrop}
+            onDragEnd={dragEnd}
+          />
         ))}
       </div>
     </div>
