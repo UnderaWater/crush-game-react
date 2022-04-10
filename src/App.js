@@ -92,15 +92,15 @@ const App = () => {
       const isFirstRow = firstRow.includes(i)
 
       if (isFirstRow && currentColors[i] === blank) {
-          let randomNumber = Math.floor(Math.random() * colors.length)
-          currentColors[i] = colors[randomNumber]
+        let randomNumber = Math.floor(Math.random() * colors.length)
+        currentColors[i] = colors[randomNumber]
       }
 
       if ((currentColors[i + width]) === blank) {
-          currentColors[i + width] = currentColors[i]
-          currentColors[i] = blank
+        currentColors[i + width] = currentColors[i]
+        currentColors[i] = blank
       }
-  }
+    }
   }
 
   const createBoard = () => {
@@ -120,7 +120,7 @@ const App = () => {
     setSquareReplaced(e.target)
   }
 
-  const dragEnd = (e) => {
+  const dragEnd = () => {
     const squareDraggeddId = parseInt(squareDragged.getAttribute('data-id'));
     const squareReplacedId = parseInt(squareReplaced.getAttribute('data-id'));
 
@@ -144,12 +144,12 @@ const App = () => {
     if (squareReplacedId &&
       validMove &&
       (isARowOfThree || isARowOfFour || isAColumnOfFour || isAColumnOfThree)) {
-      setSquareDragged(null)
-      setSquareReplaced(null)
+      setSquareDragged(null);
+      setSquareReplaced(null);
   } else {
-      currentColors[squareReplacedId] = squareReplaced.getAttribute('src')
-      currentColors[squareReplacedId] = squareDragged.getAttribute('src')
-      setCurrentColors([...currentColors])
+      currentColors[squareReplacedId] = squareReplaced.getAttribute('src');
+      currentColors[squareDraggeddId] = squareDragged.getAttribute('src');
+      setCurrentColors([...currentColors]);
   }
   }
 
@@ -171,6 +171,7 @@ const App = () => {
 
   return (
     <div className="app">
+      <ScoreBoard score={score} />
       <div className="app-game">
         {currentColors.map((item, index) => (
           <img
@@ -188,7 +189,6 @@ const App = () => {
           />
         ))}
       </div>
-      <ScoreBoard score={score} />
     </div>
   );
 }
