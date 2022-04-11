@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/crush-game-react/static/css/main.53c677d7.css",
+    "main.js": "/crush-game-react/static/js/main.806b1067.js",
+    "static/media/avocado.png": "/crush-game-react/static/media/avocado.589a0400a50db656e5ef.png",
+    "static/media/strawberry.png": "/crush-game-react/static/media/strawberry.6e2ef5ceac30d69f55e3.png",
+    "static/media/blank.png": "/crush-game-react/static/media/blank.fbcb91799ceba75b2e3a.png",
+    "static/media/blueberries.png": "/crush-game-react/static/media/blueberries.baa822e49f4bd5236e34.png",
+    "static/media/lemon.png": "/crush-game-react/static/media/lemon.c3e904c97d4dbadf4077.png",
+    "static/media/eggplant.png": "/crush-game-react/static/media/eggplant.92ab042c36ef9a1b88c7.png",
+    "static/media/orange.png": "/crush-game-react/static/media/orange.2fbc24af7b6552482f50.png",
+    "index.html": "/crush-game-react/index.html",
+    "main.53c677d7.css.map": "/crush-game-react/static/css/main.53c677d7.css.map",
+    "main.806b1067.js.map": "/crush-game-react/static/js/main.806b1067.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.53c677d7.css",
+    "static/js/main.806b1067.js"
+  ]
+}
